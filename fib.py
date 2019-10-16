@@ -21,6 +21,12 @@ def fib2_helper(n_to_ans, n):
     n_to_ans[n] = ans
     return ans
 
+def fib3(n):
+    dp = [0, 1]
+    for i in range(2, n + 1):
+        dp.append(dp[i - 1] + dp[i - 2])
+    return dp[n]
+
 if __name__ == '__main__':   
     for n in sys.argv[1:]:
         n = int(n)
@@ -34,3 +40,8 @@ if __name__ == '__main__':
         print(f'fib2({n}) = {fib2(n)}')
         end = time.perf_counter()
         print(f'Time elapsed for fib2 func is: {end - start}')
+
+        start = time.perf_counter()
+        print(f'fib3({n}) = {fib3(n)}')
+        end = time.perf_counter()
+        print(f'Time elapsed for fib3 func is: {end - start}')
