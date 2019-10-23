@@ -5,7 +5,7 @@ def func1(arr):
     return dfs(arr, 0, 0)
 
 def dfs(arr, index, crtSum):
-    if index >= len(arr):
+    if len(arr) == 0 or index >= len(arr):
         return False
     if crtSum == sum(arr) / 2:
         return True
@@ -19,3 +19,4 @@ if __name__ == "__main__":
     print(func1([1, 5, 11, 9]))
     print(func1([1, 5, 11, 7]))
     print(func1([1, 3]))
+    print(func1([]))
