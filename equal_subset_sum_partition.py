@@ -4,7 +4,8 @@ def func1(arr):
     total = sum(arr)
     if total % 2 == 1:
         return False
-    return dfs(arr, 0, 0, total / 2)
+    # return dfs(arr, 0, 0, total / 2)
+    return dfs1(arr, 0, int(total / 2))
 
 def func2(arr):
     total = sum(arr)
@@ -22,6 +23,16 @@ def dfs(arr, index, crtSum, sum):
         return True
 
     return dfs(arr, index + 1, crtSum + arr[index], sum) or dfs(arr, index + 1, crtSum, sum) 
+
+def dfs1(arr, index, sum):
+    if len(arr) == 0 or index >= len(arr) or sum < 0:
+        return False
+    if sum == 0:
+        return True
+    if arr[index] <= sum:
+        if dfs1(arr, index + 1, sum - arr[index]):
+            return True
+    return dfs1(arr, index + 1, sum)
 
 def dfs_with_memo(arr, dp, index, crtSum, sum):
     if len(arr) == 0 or index >= len(arr) or crtSum > sum:
