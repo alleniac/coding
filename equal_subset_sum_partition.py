@@ -8,7 +8,7 @@ def func2(arr):
     total = sum(arr)
     if total % 2 == 1:
         return False
-    dp = [[-1 for x in range(len(arr))] for y in range(int(total / 2 + 1))]
+    dp = [[-1 for x in range(int(total / 2) + 1)] for y in range(len(arr))]
     return True if dfs_with_memo(arr, dp, 0, 0, total / 2) == 1 else False
 
 def dfs(arr, index, crtSum, sum):
@@ -27,8 +27,8 @@ def dfs_with_memo(arr, dp, index, crtSum, sum):
         return 1
     if dp[index][crtSum] != -1:
         return dp[index][crtSum]
-    leftResult = dfs(arr, index + 1, crtSum + arr[index], sum)
-    rightResult = dfs(arr, index + 1, crtSum, sum)
+    leftResult = dfs_with_memo(arr, dp, index + 1, crtSum + arr[index], sum)
+    rightResult = dfs_with_memo(arr, dp, index + 1, crtSum, sum)
     if leftResult == 1 or rightResult == 1:
         dp[index][crtSum] = 1
     else:
