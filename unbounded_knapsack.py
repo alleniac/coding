@@ -1,6 +1,12 @@
+import time
+
 def func1(weights, profits, capacity):
     # assume that len(weights) == len(profits)
     return dfs(weights, profits, capacity, 0, 0)
+
+def func2(weights, profits, capacity):
+    dp = [[-1 for x in range(capacity + 1)] for y in range(len(weights))]
+    return dfs2(weights, profits, capacity, dp, 0)
 
 def dfs(weights, profits, capacity, crtWeight, index):
     n = len(weights)
@@ -18,7 +24,26 @@ def dfs(weights, profits, capacity, crtWeight, index):
 
     return max(profit1, profit2)
 
-if __name__ == '__main__':
+def dfs2(weights, profits, capacity, dp, index):
+    n = len(weights)
+
+    if n == 0 or index >= n or capacity < 0:
+        return 0
+    if dp[index][capacity] != -1:
+        return dp[index][capacity]
+
+    # include myself
+    profit1 = 0
+    if capacity - weights[index] >= 0:
+        profit1 = profits[index] + dfs2(weights, profits, capacity - weights[index], dp, index)
+
+    # not include myself:
+    profit2 = dfs2(weights, profits, capacity, dp, index + 1)
+
+    dp[index][capacity] = max(profit1, profit2)
+    return dp[index][capacity]
+
+def test(func, testCase):
     testWeights1 = [1, 2, 3]
     testProfits1 = [15, 20, 50]
     testCapacity1 = 5
@@ -35,14 +60,21 @@ if __name__ == '__main__':
     testProfits4 = [35, 50, 60, 75]
     testCapacity4 = 100
 
-    result1 = func1(testWeights1, testProfits1, testCapacity1)
-    print(f'func1 result1: {result1}')
+    # Access to variables in namespaces: https://stackoverflow.com/questions/8028708/dynamically-set-local-variable
+    lcl = locals()
 
-    result2 = func1(testWeights2, testProfits2, testCapacity2)
-    print(f'func1 result2: {result2}')
+    start = time.perf_counter()
+    result = func(lcl[f'testWeights{testCase}'], lcl[f'testProfits{testCase}'], lcl[f'testCapacity{testCase}'])
+    end = time.perf_counter()
+    print(f'function: {func.__name__}, result: {result}, testCase: {testCase}, time: {end - start}')
 
-    result3 = func1(testWeights3, testProfits3, testCapacity3)
-    print(f'func1 result3: {result3}')
+if __name__ == '__main__':
+    test(func1, 1)
+    test(func1, 2)
+    test(func1, 3)
+    test(func1, 4)
 
-    result4 = func1(testWeights4, testProfits4, testCapacity4)
-    print(f'func1 result3: {result4}')
+    test(func2, 1)
+    test(func2, 2)
+    test(func2, 3)
+    test(func2, 4)
