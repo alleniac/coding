@@ -31,6 +31,10 @@ if __name__ == '__main__':
     testProfits3 = [15, 50, 60, 90]
     testCapacity3 = 6
 
+    testWeights4 = [2, 3, 4, 5]
+    testProfits4 = [35, 50, 60, 75]
+    testCapacity4 = 100
+
     result1 = func1(testWeights1, testProfits1, testCapacity1)
     print(f'func1 result1: {result1}')
 
@@ -39,3 +43,6 @@ if __name__ == '__main__':
 
     result3 = func1(testWeights3, testProfits3, testCapacity3)
     print(f'func1 result3: {result3}')
+
+    result4 = func1(testWeights4, testProfits4, testCapacity4)
+    print(f'func1 result3: {result4}')
