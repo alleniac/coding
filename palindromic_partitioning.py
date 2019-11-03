@@ -70,7 +70,37 @@ def func3(s):
             right += 1
     # keep the minimum number of palindromic partitions from index to the end
     memo = [-1 for _ in range(n)]
-    return dfs3(s, pal, memo, n -1)          
+    return dfs3(s, pal, memo, n -1)   
+
+def func4(s):
+    n = len(s)
+    pal = [[False for _ in range(n)] for _ in range(n)]
+    for i in range(0, n):
+        left = i
+        right = i
+        while left >= 0 and right < n and s[left] == s[right]:
+            pal[left][right] = True
+            left -= 1
+            right += 1
+    for i in range(0, n):
+        left = i
+        right = i + 1
+        while left >= 0 and right < n and s[left] == s[right]:
+            pal[left][right] = True
+            left -= 1
+            right += 1
+    
+    # from index to end, the minimum number of partitions
+    num = [-1 for _ in range(n)]
+    for start in range(n - 1, -1, -1):
+        minRes = n - start
+        for end in range(n - 1, start - 1, -1):
+            if pal[start][end] and end == n - 1:
+                minRes = 0
+            elif pal[start][end]:
+                minRes = min(minRes, 1 + num[end + 1])
+        num[start] = minRes
+    return num[0]
 
 def dfs(s, start):
     n = len(s)
@@ -118,16 +148,26 @@ def dfs3(s, pal, memo, end):
     return memo[end]
 
 if __name__ == '__main__':
-    # test(func1, 1)
-    # test(func2, 1)
-    # test(func1, 2)
-    # test(func2, 2)
-    # test(func1, 3)
-    # test(func2, 3)
-    # test(func1, 4)
-    # test(func2, 4)
-    # test(func1, 5)
-    # test(func2, 5)
+    test(func1, 1)
+    test(func2, 1)
+    test(func3, 1)
+
+    test(func1, 2)
+    test(func2, 2)
+    test(func3, 2)
+
+    test(func1, 3)
+    test(func2, 3)
+    test(func3, 3)
+    
+    test(func1, 4)
+    test(func2, 4)
+    test(func3, 4)
+
+    test(func1, 5)
+    test(func2, 5)
+    test(func3, 5)
+
     # test(func1, 6)
     test(func2, 6)
     test(func3, 6)
