@@ -36,27 +36,41 @@ def func2(s):
     for i in range(0, n):
         left = i
         right = i
-        while left >= 0 and right < n:
-            if isPal(s, left, right):
-                pal[left][right] = True
-                left -= 1
-                right += 1
-            else:
-                break
+        while left >= 0 and right < n and s[left] == s[right]:
+            pal[left][right] = True
+            left -= 1
+            right += 1
     for i in range(0, n):
         left = i
         right = i + 1
-        while left >= 0 and right < n:
-            if isPal(s, left, right):
-                pal[left][right] = True
-                left -= 1
-                right += 1
-            else:
-                break
+        while left >= 0 and right < n and s[left] == s[right]:
+            pal[left][right] = True
+            left -= 1
+            right += 1
     # keep the minimum number of palindromic partitions from index to the end
     memo = [-1 for _ in range(n)]
     return dfs2(s, pal, memo, 0)
-            
+
+def func3(s):
+    n = len(s)
+    pal = [[False for _ in range(n)] for _ in range(n)]
+    for i in range(0, n):
+        left = i
+        right = i
+        while left >= 0 and right < n and s[left] == s[right]:
+            pal[left][right] = True
+            left -= 1
+            right += 1
+    for i in range(0, n):
+        left = i
+        right = i + 1
+        while left >= 0 and right < n and s[left] == s[right]:
+            pal[left][right] = True
+            left -= 1
+            right += 1
+    # keep the minimum number of palindromic partitions from index to the end
+    memo = [-1 for _ in range(n)]
+    return dfs3(s, pal, memo, n -1)          
 
 def dfs(s, start):
     n = len(s)
@@ -88,6 +102,21 @@ def dfs2(s, pal, memo, start):
     memo[start] = minRes
     return memo[start]
 
+def dfs3(s, pal, memo, end):
+    if end == 0 or pal[0][end]:
+        return 0
+    
+    if memo[end] != -1:
+        return memo[end]
+    
+    minRes = end
+    for i in range(0, end + 1):
+        if pal[i][end]:
+            minRes = min(minRes, 1 + dfs3(s, pal, memo, i - 1))
+    
+    memo[end] = minRes
+    return memo[end]
+
 if __name__ == '__main__':
     # test(func1, 1)
     # test(func2, 1)
@@ -101,3 +130,4 @@ if __name__ == '__main__':
     # test(func2, 5)
     # test(func1, 6)
     test(func2, 6)
+    test(func3, 6)
