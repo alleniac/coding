@@ -34,6 +34,23 @@ def func3(s1, s2):
                 maxLength = max(maxLength, dp[i][j])
     return maxLength
 
+def func4(s1, s2):
+    n = len(s1)
+    m = len(s2)
+    if n == 0 or m == 0:
+        return 0
+    prev = [0 for _ in range(m + 1)]
+    crt = [0 for _ in range(m + 1)]
+    result = 0
+    for i in range(1, n + 1):
+        for j in range(1, m + 1):
+            if s1[i - 1] == s2[j - 1]:
+                crt[j] = prev[j - 1] + 1
+                result = max(result, crt[j])
+        prev, crt = crt, [0 for _ in range(m + 1)]
+    
+    return result
+                
 def dfs(s1, s2, i, j, length):
     n1 = len(s1)
     n2 = len(s2)
@@ -63,8 +80,10 @@ if __name__ == '__main__':
     test(func1, 1)
     test(func2, 1)
     test(func3, 1)
+    test(func4, 1)
 
     test(func1, 2)
     test(func2, 2)
     test(func3, 2)
+    test(func4, 2)
     
