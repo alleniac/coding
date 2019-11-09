@@ -11,11 +11,25 @@ def test(func, testCase):
     end = time.perf_counter()
     print(f'function: {func.__name__}, testCase: {testCase}, result: {result}, time: {end - start}')
 
+def helper(lcs, s1, s2):
+    res, i, j = "", 0, 0
+    for c in lcs:
+        while s1[i] != c:
+            res = res + s1[i]
+            i = i + 1
+        while s2[j] != c:
+            res = res + s2[j]
+            j = j + 1
+        res = res + c
+        i, j = i + 1, j + 1
+    return res + s1[i:] + s2[j:]
+
 def func1(s1, s2):
     n = len(s1)
     m = len(s2)
     memo = [["" for _ in range(m)] for _ in range(n)]
-    return dfs(s1, s2, 0, 0, memo)
+    lcs = dfs(s1, s2, 0, 0, memo)
+    return helper(lcs, s1, s2)
 
 def dfs(s1, s2, i, j, memo):
     n = len(s1)
